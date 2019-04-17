@@ -1,33 +1,90 @@
-# Load extensions
-# source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/clement/.oh-my-zsh"
 
-# Activate plugins
-plugins=(git zsh-completions)
+# Theme
+ZSH_THEME="agnoster"
 
-# Custom vars
-SPARK=$HOME/.spark-installer
-COMPOSER=$HOME/.composer/vendor/bin
-LOCAL_NODE_BIN=node_modules/.bin
+DEFAULT_USER="clement"
+prompt_context(){}
 
-# Custom paths
-PATH=/usr/local/sbin:$PATH
-PATH=$SPARK:$PATH
-PATH=$COMPOSER:$PATH
-PATH=$LOCAL_NODE_BIN:$PATH
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
-# Set default editor
-export EDITOR='subl -w'
+ENABLE_CORRECTION="true"
 
-# Load my aliases
-if [ -f ~/.aliases ]; then
-  . ~/.aliases
-fi
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+  h
+  tmux
+  z
+  zsh-syntax-highlighting
+  zsh-autosuggestions
+)
 
-# Load my functions
-if [ -f ~/.functions ]; then
-  . ~/.functions
-fi
+source $ZSH/oh-my-zsh.sh
 
-local ret_status="%(?:%{$fg_bold[green]%}△ :%{$fg_bold[red]%}▽ )"
-PROMPT='${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
+# Anaconda
+. /Users/clement/anaconda3/etc/profile.d/conda.sh
+export PATH=$HOME/anaconda3/bin:$PATH
+
+# Common ENV variables
+export EDITOR='vim'
+export GIT_EDITOR='vim'
+export SHELL='/bin/zsh'
+
+# History
+export HISTSIZE=100000
+export HISTFILE="$HOME/.history"
+export SAVEHIST="$HISTSIZE"
+
+# Remove superfluous blanks from each command line being added to the history
+# list
+setopt histreduceblanks
+# Remove command lines from the history list when the first character on the
+# line is a space, or when one of the expanded aliases contains a leading space
+setopt histignorespace
+# Do not enter command lines into the history list if they are duplicates of the
+# previous event.
+setopt histignorealldups
+# Do not require a leading '.' in a filename to be matched explicitly
+setopt globdots
+# Causes field splitting to be performed on unquoted parameter expansions
+setopt shwordsplit
+# Automatically use menu completion after the second consecutive request for
+# completion
+setopt automenu
+# Try to make the completion list smaller (occupying less lines) by printing
+# the matches in columns with different widths
+setopt listpacked
+# Don't show types in completion lists
+setopt nolisttypes
+# If a completion is performed with the cursor within a word, and a full
+# completion is inserted, the cursor is moved to the end of the word
+setopt alwaystoend
+# Try to correct the spelling of commands
+setopt correct
+
+# process completion
+zstyle ':completion:*:processes' command 'ps -au$USER'
+zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=36=31"
+
+# You can hit C-X C-E to open your $EDITOR
+# with the command typed in the buffer and quickly edit your error
+autoload edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
+
+# Dir: current working directory
+prompt_dir() {
+    prompt_segment blue black '%2~'
+}
+
+# Aliases
+. ~/.zsh_aliases
