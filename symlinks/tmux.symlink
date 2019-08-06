@@ -1,0 +1,31 @@
+# remap prefix from 'C-b' to 'C-a'
+unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix
+
+# split panes using / and -
+bind / split-window -h
+bind - split-window -v
+unbind '"'
+unbind %
+
+# reload config file (change file location to your the tmux.conf you want to use)
+bind r source-file ~/.tmux.conf
+
+bind k select-pane -U
+bind j select-pane -D
+bind l select-pane -R
+bind h select-pane -L
+
+set -g mouse on
+
+set-window-option -g mode-keys vi
+
+bind-key -T copy-mode-vi 'v' send -X begin-selection
+bind-key -T copy-mode-vi 'y' send -X copy-selection-and-cancel
+
+# Start Window Numbering at 1
+set -g base-index 1
+
+# Faster Command Sequences
+set -s escape-time 0
