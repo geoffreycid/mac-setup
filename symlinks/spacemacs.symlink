@@ -7,23 +7,23 @@
    dotspacemacs-configuration-layer-path '()
    dotspacemacs-configuration-layers
    '(
-     auto-completion
-     csv
+     (auto-completion :variables auto-completion-enable-sort-by-usage t)
+     ;; csv
      (c-c++ :variables c-c++-enable-clang-support t)
      emacs-lisp
-     ess
+     ;; ess
      git
      github
      helm
-     html
+     ;; html
      ibuffer
      imenu-list
-     ipython-notebook
+     ;; ipython-notebook
      java
      javascript
-     lua
+     ;; lua
      markdown
-     ocaml
+     ;; ocaml
      org
      pdf-tools
      python
@@ -300,7 +300,7 @@ you should place your code here."
 
   ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
   ;; may have their own settings.
-  (spacemacs/load-theme 'doom-one t)
+  (spacemacs/load-theme 'doom-city-lights t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -312,6 +312,8 @@ you should place your code here."
   (doom-themes-org-config)
   (add-hook 'text-mode-hook 'turn-on-auto-fill)
   (display-time-mode 1)
+
+  (setenv "WORKON_HOME" "/Users/clement/anaconda3/envs/")
 
   ;; PDF
   (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
@@ -332,6 +334,24 @@ you should place your code here."
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  ;; Org
+  (setq-default dotspacemacs-configuration-layers '(
+                                                     (org :variables org-enable-github-support t)))
+  (setq org-cycle-emulate-tab 'white)
+  (setq org-agenda-files (list "~/snips/review.org"))
+  (global-set-key (kbd "C-c o")
+    (lambda () (interactive) (find-file "~/snips/review.org")))
+  (global-set-key (kbd "C-c c") 'org-capture)
+  (setq org-todo-keywords
+    '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
+  (setq org-default-notes-file "~/snips/review.org")
+  (setq org-capture-templates
+    '(("t" "Todo" entry (file+headline "~/snips/review.org" "Tasks")
+        "* TODO %?\n  %i\n  %a")
+       ("j" "Journal" entry (file+datetree "~/snips/journal.org")
+         "* %?\nEntered on %U\n  %i\n  %a")))
+  (setq org-blank-before-new-entry (quote ((heading) (plain-list-item))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
