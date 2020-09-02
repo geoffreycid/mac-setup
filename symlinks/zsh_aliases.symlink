@@ -4,3 +4,7 @@ alias emc='emacsclient -c'
 # Mac Helpers
 alias show_hidden="defaults write com.apple.Finder AppleShowAllFiles YES && killall Finder"
 alias hide_hidden="defaults write com.apple.Finder AppleShowAllFiles NO && killall Finder"
+alias thanos="ssh gcideron@192.168.0.33"
+alias instaproj="cd ~/Instadeep/projects/geoffrey-internship; conda activate py37"
+alias pypath="export PYTHONPATH=$PWD:$PYTHONPATH"
+alias linux="ssh cideron@cideron-linux.local"
